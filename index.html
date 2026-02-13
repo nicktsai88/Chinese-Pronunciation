@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字音字型練習總部</title>
+    <!-- 引入 Noto Serif TC (明體) 用於標題，Noto Sans TC (黑體) 用於內文 -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Serif+TC:wght@600;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 國文主題配色：水墨與硃砂 */
+            --bg: #f9f7f2;            /* 背景：米白宣紙色 */
+            --text-main: #2c2c2c;     /* 主字色：墨黑 */
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg);
+            /* 加入淡淡的紙張紋理感 */
+            background-image: radial-gradient(#e0e0e0 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--text-main);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 800px;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif TC', serif; /* 標題使用明體 */
+            color: var(--text-main);
+            font-size: 3em;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.1);
+        }
+
+        .header p {
+            color: #5d4037; /* 深褐色文字 */
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* 返回按鈕樣式 - 改為紫金漸層，象徵尊貴與智慧 */
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #512da8 0%, #673ab7 100%);
+            color: white;
+            padding: 12px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 15px rgba(103, 58, 183, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(103, 58, 183, 0.4);
+        }
+        
+        /* 網格佈局 */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* 卡片基礎樣式 */
+        .app-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 6px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+        }
+
+        /* 動態顏色類別 */
+        /* 字形/字型 - 藍色系 */
+        .theme-blue { --theme-color: #3949ab; --theme-light: #e8eaf6; }
+        /* 字音 - 橙色系 */
+        .theme-orange { --theme-color: #e65100; --theme-light: #fff3e0; }
+        /* 國中字音 - 綠色系區分 */
+        .theme-green { --theme-color: #2e7d32; --theme-light: #e8f5e9; }
+        /* 國中字型 - 紫色系區分 */
+        .theme-purple { --theme-color: #6a1b9a; --theme-light: #f3e5f5; }
+
+        .app-card {
+            border-top-color: var(--theme-color, #ccc);
+        }
+        .app-card .card-icon {
+            background: var(--theme-light, #f5f5f5);
+            color: var(--theme-color, #555);
+            border-color: var(--theme-light, #eee);
+        }
+        .app-card .card-title {
+            color: var(--theme-color, #333);
+        }
+        .app-card:hover {
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        /* 標籤圖示 */
+        .card-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid transparent;
+        }
+
+        /* 標題 */
+        .card-title {
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.25em;
+            font-weight: 900;
+            margin-bottom: 8px;
+            min-height: 2.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 描述文字 (包含檔案名稱) */
+        .card-desc {
+            font-size: 0.85em;
+            color: #757575;
+            line-height: 1.4;
+            margin-bottom: 15px;
+            font-family: monospace; /* 檔案名稱用等寬字體 */
+            background: #f5f5f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* 狀態標籤 */
+        .card-badge {
+            margin-top: auto;
+            padding: 5px 12px;
+            background: #4caf50; /* 預設開放綠色 */
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* 分隔線 */
+        .divider {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            margin: 50px 0 20px 0;
+            color: #555;
+            font-family: 'Noto Serif TC', serif;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 2px solid #ddd;
+        }
+        .divider::before { margin-right: 15px; }
+        .divider::after { margin-left: 15px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>📜 字音字型練習總部</h1>
+        <p>國中小範圍・全方位練習</p>
+        
+        <!-- 返回百寶箱按鈕 -->
+        <a href="https://nicktsai88.github.io/List/" class="home-btn">
+            🎁 返回快樂學習百寶箱
+        </a>
+    </div>
+
+    <div class="app-grid">
+        
+        <!-- ================= 國小範圍 - 字音 ================= -->
+        <div class="divider">國小範圍 - 字音篇</div>
+        
+        <a href="Pronunciation-Character-1.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 1 回<br>(1~98)</div>
+            <div class="card-desc">Pronunciation-Character-1</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-2.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 2 回<br>(99~197)</div>
+            <div class="card-desc">Pronunciation-Character-2</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-3.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 3 回<br>(198~286)</div>
+            <div class="card-desc">Pronunciation-Character-3</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-4.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 4 回<br>(287~378)</div>
+            <div class="card-desc">Pronunciation-Character-4</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-5.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 5 回<br>(379~464)</div>
+            <div class="card-desc">Pronunciation-Character-5</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-6.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 6 回<br>(465~552)</div>
+            <div class="card-desc">Pronunciation-Character-6</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-7.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 7 回<br>(553~626)</div>
+            <div class="card-desc">Pronunciation-Character-7</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-8.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 8 回<br>(627~710)</div>
+            <div class="card-desc">Pronunciation-Character-8</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-9.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 9 回<br>(711~802)</div>
+            <div class="card-desc">Pronunciation-Character-9</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-10.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 10 回<br>(803~875)</div>
+            <div class="card-desc">Pronunciation-Character-10</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-11.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 11 回<br>(876~964)</div>
+            <div class="card-desc">Pronunciation-Character-11</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-12.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 12 回<br>(965~1048)</div>
+            <div class="card-desc">Pronunciation-Character-12</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-13.html" class="app-card theme-orange">
+            <div class="card-icon">🗣️</div>
+            <div class="card-title">字音第 13 回<br>(1049~1132)</div>
+            <div class="card-desc">Pronunciation-Character-13</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+
+        <!-- ================= 國小範圍 - 字型 ================= -->
+        <div class="divider">國小範圍 - 字型篇</div>
+
+        <a href="Pronunciation-Character-14.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 1 回<br>(1~100)</div>
+            <div class="card-desc">Pronunciation-Character-14</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-15.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 2 回<br>(101~199)</div>
+            <div class="card-desc">Pronunciation-Character-15</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-16.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 3 回<br>(200~298)</div>
+            <div class="card-desc">Pronunciation-Character-16</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-17.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 4 回<br>(299~382)</div>
+            <div class="card-desc">Pronunciation-Character-17</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-18.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 5 回<br>(383~458)</div>
+            <div class="card-desc">Pronunciation-Character-18</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-19.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 6 回<br>(459~531)</div>
+            <div class="card-desc">Pronunciation-Character-19</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-20.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 7 回<br>(532~626)</div>
+            <div class="card-desc">Pronunciation-Character-20</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-21.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 8 回<br>(627~705)</div>
+            <div class="card-desc">Pronunciation-Character-21</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-22.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 9 回<br>(706~792)</div>
+            <div class="card-desc">Pronunciation-Character-22</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-23.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 10 回<br>(793~882)</div>
+            <div class="card-desc">Pronunciation-Character-23</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-24.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 11 回<br>(883~942)</div>
+            <div class="card-desc">Pronunciation-Character-24</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-25.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 12 回<br>(943~1025)</div>
+            <div class="card-desc">Pronunciation-Character-25</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-26.html" class="app-card theme-blue">
+            <div class="card-icon">✍️</div>
+            <div class="card-title">字型第 13 回<br>(1026~1105)</div>
+            <div class="card-desc">Pronunciation-Character-26</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+
+        <!-- ================= 國中範圍 - 字音 ================= -->
+        <div class="divider">國中範圍 - 字音篇</div>
+
+        <a href="Pronunciation-Character-27.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 1 回<br>(1~100)</div>
+            <div class="card-desc">Pronunciation-Character-27</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-28.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 2 回<br>(101~199)</div>
+            <div class="card-desc">Pronunciation-Character-28</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-29.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 3 回<br>(200~295)</div>
+            <div class="card-desc">Pronunciation-Character-29</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-30.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 4 回<br>(296~367)</div>
+            <div class="card-desc">Pronunciation-Character-30</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-31.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 5 回<br>(368~463)</div>
+            <div class="card-desc">Pronunciation-Character-31</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-32.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 6 回<br>(464~561)</div>
+            <div class="card-desc">Pronunciation-Character-32</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-33.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 7 回<br>(562~655)</div>
+            <div class="card-desc">Pronunciation-Character-33</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-34.html" class="app-card theme-green">
+            <div class="card-icon">📢</div>
+            <div class="card-title">字音第 8 回<br>(656~729)</div>
+            <div class="card-desc">Pronunciation-Character-34</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+
+        <!-- ================= 國中範圍 - 字型 ================= -->
+        <div class="divider">國中範圍 - 字型篇</div>
+
+        <a href="Pronunciation-Character-35.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 1 回<br>(1~100)</div>
+            <div class="card-desc">Pronunciation-Character-35</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-36.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 2 回<br>(101~199)</div>
+            <div class="card-desc">Pronunciation-Character-36</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-37.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 3 回<br>(200~294)</div>
+            <div class="card-desc">Pronunciation-Character-37</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-38.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 4 回<br>(295~390)</div>
+            <div class="card-desc">Pronunciation-Character-38</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-39.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 5 回<br>(391~490)</div>
+            <div class="card-desc">Pronunciation-Character-39</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-40.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 6 回<br>(491~578)</div>
+            <div class="card-desc">Pronunciation-Character-40</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-41.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 7 回<br>(579~667)</div>
+            <div class="card-desc">Pronunciation-Character-41</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+        <a href="Pronunciation-Character-42.html" class="app-card theme-purple">
+            <div class="card-icon">📝</div>
+            <div class="card-title">字型第 8 回<br>(668~764)</div>
+            <div class="card-desc">Pronunciation-Character-42</div>
+            <div class="card-badge">進入練習</div>
+        </a>
+
+    </div>
+
+</body>
+</html>
