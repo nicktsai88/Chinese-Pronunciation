@@ -506,19 +506,25 @@
             }
 
             useEffect(() => {
-                setTimeout(() => window.print(), 500);
+                const timer = setTimeout(() => window.print(), 500);
+                return () => clearTimeout(timer);
             }, []);
 
             return (
-                <div id="print-area" className="w-full bg-white text-black min-h-screen">
+                <div id="print-area" className="w-full bg-white text-black min-h-screen pt-4">
                     {/* Control Bar (No Print) */}
-                    <div className="fixed top-4 right-4 z-50 flex gap-2 no-print">
-                        <button onClick={() => window.print()} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow-lg flex items-center">
-                            <Icon path={icons.print} className="w-5 h-5 mr-2"/> 列印
-                        </button>
-                        <button onClick={onMenu} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg">
-                            返回
-                        </button>
+                    <div className="fixed top-4 right-4 z-50 flex flex-col items-end gap-2 no-print">
+                        <div className="flex gap-2">
+                            <button onClick={() => window.print()} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold shadow-lg flex items-center transition-all active:scale-95">
+                                <Icon path={icons.print} className="w-5 h-5 mr-2"/> 列印
+                            </button>
+                            <button onClick={onMenu} className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-bold shadow-lg transition-all active:scale-95">
+                                返回
+                            </button>
+                        </div>
+                        <div className="bg-yellow-50 text-yellow-800 text-xs p-3 rounded-lg border border-yellow-200 shadow-sm max-w-xs text-right animate-pulse mt-1">
+                            💡 若列印無反應，可能因預覽環境阻擋。<br/>請點擊右上角「在新分頁開啟」，或直接按 <b>Ctrl+P / ⌘+P</b>。
+                        </div>
                     </div>
 
                     {chunks.map((chunk, pageIndex) => (
@@ -589,13 +595,13 @@
             };
 
             return (
-                <div className="max-w-6xl mx-auto px-4 py-8 animate-fade-in-up mt-16 no-print">
+                <div className="w-[98%] max-w-[98%] mx-auto px-4 py-8 animate-fade-in-up mt-16 no-print">
                     {/* Dashboard Header */}
                     <div className="bg-white/90 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-amber-100 mb-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div>
                             <div className="flex items-center justify-center mb-4 px-6">
                                 <h1 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-pink-500 via-amber-500 to-red-600 bg-clip-text text-transparent drop-shadow-lg animate-pulse pr-4">
-                                  字音大師
+                                    字音大師
                                 </h1>
                                 <div className="flex items-center mx-6">
                                     <div className="h-1 w-24 bg-gradient-to-r from-pink-400 via-amber-300 to-red-400 animate-pulse rounded-full shadow-lg"></div>
@@ -603,7 +609,7 @@
                                 </div>
                                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100 border border-amber-400 rounded-full shadow-md hover:scale-105 transition-transform duration-300">
                                     <span className="text-sm md:text-lg font-semibold text-amber-700">
-                                      📘 國小範圍 字音第1回 (1~98)
+                                        📘 國小範圍 字音第1回 (1~98)
                                     </span>
                                 </div>
                             </div> 
@@ -851,7 +857,7 @@
 
         const MistakeView = ({ mistakes, mistakeLog, setMistakeLog, onMenu, onReviewAll }) => {
             return (
-                <div className="max-w-7xl mx-auto px-4 py-8 mt-12 animate-fade-in-up">
+                <div className="w-[98%] max-w-[98%] mx-auto px-4 py-8 mt-12 animate-fade-in-up">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-8 gap-4">
                         <div className="flex items-center">
                             <button onClick={onMenu} className="mr-4 p-3 bg-white rounded-xl shadow border border-gray-200 hover:bg-gray-50"><Icon path={icons.left} className="w-5 h-5"/></button>
@@ -915,7 +921,7 @@
             }, [items, searchTerm]);
 
             return (
-                <div className="max-w-7xl mx-auto px-4 py-8 animate-fade-in-up mt-12 no-print">
+                <div className="w-[98%] max-w-[98%] mx-auto px-4 py-8 animate-fade-in-up mt-12 no-print">
                     <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-xl overflow-hidden border border-gray-200 flex flex-col h-[85vh]">
                         <div className="p-6 border-b border-gray-200 bg-gray-50 flex flex-col md:flex-row justify-between items-center gap-4">
                             <div className="flex items-center gap-4 w-full md:w-auto">
@@ -945,7 +951,7 @@
             useEffect(() => { if (scrollRef.current) scrollRef.current.scrollTop = 0; window.scrollTo(0, 0); }, [learnPage]);
 
             return (
-                <div className="max-w-4xl mx-auto px-4 py-6 mt-12 no-print" ref={scrollRef}>
+                <div className="w-[98%] max-w-[98%] mx-auto px-4 py-6 mt-12 no-print" ref={scrollRef}>
                     <div className="bg-white/90 backdrop-blur-md p-4 rounded-xl shadow-sm mb-8 flex flex-col md:flex-row justify-between items-center sticky top-16 z-30 border-b-2 border-amber-200">
                         <div className="flex items-center gap-4 mb-4 md:mb-0 w-full md:w-auto">
                             <button onClick={onMenu} className="text-gray-500 hover:text-gray-900 flex items-center whitespace-nowrap bg-gray-100 px-3 py-2 rounded-lg font-bold"><Icon path={icons.menu} className="w-5 h-5 mr-2"/> 選單</button>
@@ -987,7 +993,7 @@
 
             if (showResult) {
                  return (
-                    <div className="max-w-2xl mx-auto pt-10 px-4 animate-fade-in-up mt-12 no-print">
+                    <div className="w-[98%] lg:max-w-2xl mx-auto pt-10 px-4 animate-fade-in-up mt-12 no-print">
                         <div className="bg-white rounded-3xl shadow-2xl overflow-hidden text-center border-4 border-amber-400">
                             <div className="bg-amber-500 p-10 text-white relative overflow-hidden"><h2 className="text-4xl font-black mb-2 font-serif relative z-10">戰役結束</h2><p className="opacity-90 font-bold text-lg relative z-10">主公 {userName} 辛苦了</p></div>
                             <div className="p-10">
@@ -1000,7 +1006,7 @@
                 );
             }
             return (
-                <div className="max-w-4xl mx-auto pb-20 px-4 mt-12 no-print">
+                <div className="w-[98%] max-w-[98%] mx-auto pb-20 px-4 mt-12 no-print">
                     <div className="bg-white/95 backdrop-blur shadow-sm p-4 rounded-b-2xl mb-8 sticky top-16 z-30 border-t-4 border-amber-500 flex flex-col md:flex-row justify-between items-center transition-all">
                         <div className="flex items-center gap-4 mb-4 md:mb-0 w-full md:w-auto justify-between md:justify-start"><button onClick={onMenu} className="text-gray-500 text-sm flex items-center hover:text-red-600 font-bold bg-gray-100 px-3 py-2 rounded-lg transition-colors"><Icon path={icons.left} className="w-4 h-4 mr-1"/> 撤退</button><div className="font-bold text-xl flex items-center gap-3"><span>{userName}</span><span className="bg-amber-100 text-amber-800 px-3 py-1 rounded-full text-sm font-black border border-amber-200">戰功: {score}</span></div></div>
                         
@@ -1086,7 +1092,7 @@
             const [selectedLog, setSelectedLog] = useState(null);
             if (selectedLog) {
                 return (
-                    <div className="w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-md min-h-screen p-6 md:p-8 shadow-2xl animate-fade-in-up mt-12 no-print">
+                    <div className="w-[98%] max-w-[98%] mx-auto bg-white/95 backdrop-blur-md min-h-screen p-6 md:p-8 shadow-2xl animate-fade-in-up mt-12 no-print">
                         <div className="flex justify-between items-center mb-8 pb-4 border-b border-gray-200 sticky top-16 bg-white z-20 pt-4"><button onClick={() => setSelectedLog(null)} className="flex items-center text-gray-500 hover:text-amber-800 font-bold text-lg px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"><Icon path={icons.left} className="w-6 h-6 mr-1"/> 返回</button><div className="text-right"><h2 className="text-2xl font-black text-gray-800">戰役回放</h2><p className="text-gray-500 text-sm mt-1 font-mono">{selectedLog.date}</p></div></div>
                         <div className="space-y-6"><div className="flex justify-center mb-8"><div className="text-center"><div className="text-sm text-gray-400 font-bold uppercase mb-1">總得分</div><div className="text-5xl font-black text-amber-600">{selectedLog.score} <span className="text-2xl text-gray-300">/ {selectedLog.total}</span></div></div></div>{selectedLog.details.map((d, i) => (<div key={i} className={`p-6 rounded-2xl border-l-8 shadow-sm ${d.isCorrect ? 'border-green-400 bg-green-50/30' : 'border-red-400 bg-red-50/30'}`}><div className="mb-3 font-bold text-gray-800 text-xl leading-relaxed">{d.term}</div><div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 bg-white/50 p-3 rounded-lg"><div className="flex items-center"><span className="text-gray-400 text-xs font-bold uppercase mr-2">您的選擇</span><span className={`text-lg font-bold bopomofo ${d.isCorrect ? "text-green-700" : "text-red-600 line-through decoration-2"}`}>{d.userAnswer}</span></div>{!d.isCorrect && (<div className="flex items-center"><span className="text-gray-400 text-xs font-bold uppercase mr-2">正解</span><span className="text-green-700 text-lg font-black bopomofo">{d.correctAnswer}</span></div>)}</div></div>))}</div>
                         <div className="h-20"></div>
@@ -1094,7 +1100,7 @@
                 )
             }
             return (
-                <div className="max-w-4xl mx-auto px-4 py-8 mt-12 no-print">
+                <div className="w-[98%] max-w-[98%] mx-auto px-4 py-8 mt-12 no-print">
                     <div className="flex items-center mb-8"><button onClick={onMenu} className="mr-4 p-3 bg-white rounded-xl shadow border border-gray-200 hover:bg-gray-50"><Icon path={icons.left} className="w-5 h-5"/></button><h2 className="text-3xl font-black text-gray-800 flex items-center gap-3">📜 歷史戰績 <span className="text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">{historyLog.length} 場</span></h2></div>
                     {historyLog.length === 0 ? (
                         <div className="text-center py-32 text-gray-400 border-2 border-dashed border-gray-200 rounded-3xl bg-white/80 backdrop-blur"><Icon path={icons.history} className="w-16 h-16 mx-auto mb-4 text-gray-300"/><p className="text-xl font-bold">尚無戰役紀錄</p></div>
@@ -1373,7 +1379,7 @@
                     <div className="fixed inset-0 z-0 bg-white/70 backdrop-blur-[2px] no-print"></div>
                     <div className="relative z-10">
                         <MusicPlayer ref={musicPlayerRef} />
-                        {currentMode === 'menu' && <MenuView userName={userName} setUserName={setUserName} showNameWarning={showNameWarning} mistakeLog={mistakeLog} favorites={favorites} parsedData={parsedData} onStartLearn={(cat) => { setActiveCategory(cat); setLearnPage(0); setCurrentMode('learn'); }} onStartQuiz={(cat, page = 0) => handleStartQuiz(cat, page)} onStartWaterfall={handleStartWaterfall} onViewHistory={() => setCurrentMode('history')} onViewMistakes={() => setCurrentMode('mistakes')} onViewTable={() => setCurrentMode('table')} onPrint={() => setCurrentMode('print')} onLogin={handleLogin} isLocked={isLocked} onQuickLogin={handleQuickLogin} lastUser={lastUser} onLogout={handleLogout} onDeleteUser={handleDeleteUser} globalUsers={globalUsers} triggerMusic={triggerMusic} connectionStatus={connectionStatus} completedDays={completedDays} />}
+                        {currentMode === 'menu' && <MenuView userName={userName} setUserName={setUserName} showNameWarning={showNameWarning} mistakeLog={mistakeLog} favorites={favorites} parsedData={parsedData} onStartLearn={(cat) => { setActiveCategory(cat); setLearnPage(0); setCurrentMode('learn'); }} onStartQuiz={(cat, page = 0) => handleStartQuiz(cat, page)} onStartWaterfall={handleStartWaterfall} onViewHistory={() => setCurrentMode('history')} onViewMistakes={() => setCurrentMode('mistakes')} onViewTable={() => setCurrentMode('table')} onPrintExam={() => setCurrentMode('print')} onLogin={handleLogin} isLocked={isLocked} onQuickLogin={handleQuickLogin} lastUser={lastUser} onLogout={handleLogout} onDeleteUser={handleDeleteUser} globalUsers={globalUsers} triggerMusic={triggerMusic} connectionStatus={connectionStatus} completedDays={completedDays} />}
                         {currentMode === 'learn' && <LearnView items={activeCategory === '收藏夾' ? allItems.filter(i => favorites.includes(i.id)) : parsedData["精選字音"]} learnPage={learnPage} setLearnPage={setLearnPage} favorites={favorites} toggleFavorite={toggleFavorite} completedDays={completedDays} onMenu={() => setCurrentMode('menu')} />}
                         {currentMode === 'quiz' && <QuizView questions={quizQuestions} score={quizScore} userName={userName} combo={combo} onAnswer={handleAnswer} onFinish={finishQuiz} onMenu={() => setCurrentMode('menu')} onViewHistory={() => setCurrentMode('history')} favorites={favorites} toggleFavorite={toggleFavorite} activeCategory={activeCategory} totalItems={activeCategory === '收藏夾' ? favorites.length : parsedData["精選字音"].length} quizPage={quizPage} onPageChange={(page) => handleStartQuiz(activeCategory, page)} completedDays={completedDays} />}
                         {currentMode === 'history' && <HistoryView historyLog={historyLog} setHistoryLog={clearHistoryLog} onMenu={() => setCurrentMode('menu')} />}
